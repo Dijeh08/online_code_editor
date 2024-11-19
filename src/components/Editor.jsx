@@ -25,7 +25,11 @@ import Editor from '@monaco-editor/react';
   // }
   props.languageType(fileName)
   // console.log(fileName)
-
+  
+  function handleSelectButton(event) {
+    console.log(event.target.value)
+    setFileName((files.filter((file)=> file.language == event.target.value))[0])
+  }
   function handleInputChange(value, event) {
     // console.log(value)
     props.editorInput(value)
@@ -33,25 +37,23 @@ import Editor from '@monaco-editor/react';
   return (
     <>
     <div className=' ps-1'><h3>Language</h3></div>
-      <div className="my-1">
-        <button type="button" className="btn btn-secondary mx-1" disabled={fileName === 'javascript'} onClick={() => {setFileName((files.filter((file)=> file.language == 'javascript'))[1]);}}>
-          Javascript
-        </button>
-        <button type="button" className="btn btn-secondary mx-1" disabled={fileName === 'python'} onClick={() => setFileName((files.filter((file)=> file.language == 'python'))[0])}>
-          Python
-        </button>
-        <button type="button" className="btn btn-secondary mx-1" disabled={fileName === 'php'} onClick={() => setFileName((files.filter((file)=> file.language == 'php'))[0])}>
-          PHP
-        </button>
+      <div className='w-10 my-1'>
+        <select className="form-select" aria-label="Default select example" onChange={handleSelectButton}>
+          <option value='javascript' selected >JavaScript</option>
+          <option value="python">Python</option>
+          <option value="php">PHP</option>
+          <option value="typescript">Typescript</option>
+        </select>
       </div>
+      
     
-      <div className='bg-secondary mt-1 border rounded-2' style={{width: '100%', height: '80vh'}}>
+      <div className=' mt-1 border rounded-2' style={{width: '100%', height: '65vh'}}>
         <Editor 
-          className=' border border-2 rounded-2'
+          className={props.darkMode? ' border border-2 rounded-2 border-success': 'border border-2 rounded-2 border-dark'}
           height="100%"
           width='100%'
-          theme='vs-dark' 
-          onMount={handleEditorDidMount}
+          theme={props.darkMode? 'vs-dark' : 'vs-light'} 
+          // onMount={handleEditorDidMount}
           onChange={handleInputChange}
           defaultLanguage={fileName.language}
           defaultValue={'// some comments'}

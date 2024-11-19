@@ -3,6 +3,9 @@ import EditorComponent from './Editor.jsx'
 import OutputComponent from './Output.jsx';
 import {Files} from './staticData.js'
 import axios from 'axios';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import Header from './Header.jsx';
+import Footer from './Footer.jsx';
 import './App.css';
 
 function App() {
@@ -13,7 +16,11 @@ function App() {
   const [runState, setRunState] = useState(false);
   const [inputEditor, setInputEditor] = useState(null)
   const [result, setReuslt] = useState(null)
-
+  const [darkMode, setDarkMode] = useState(true)
+  const htmlElement = document.querySelector('html');
+                        htmlElement.setAttribute('data-bs-theme', 
+                        darkMode ? 'dark' : 'light');
+  
   async function handleGetCall() {
     try {
       // Send a POST request
@@ -67,43 +74,42 @@ function App() {
     handlePostAPI();
   }, [runState]);
  
- 
+  function handleThemeMode(params) {
+    setDarkMode(params)
+  }
 
   return (
     <>
-      <div className='container-fluid mt-2'>
-        <div className='row'>
-          <div className='col-6'>
-            <div className='p-1'>
-              <EditorComponent 
-                files={Files}
-                languageType={handleLanguageType}
-                editorInput={handleEditorInput}/>
+      <div >
+          <Header
+            darkMode={handleThemeMode}/>
+          <div className='container-fluid mt-2'>
+            <div className='row g-0'>
+              <div className='col-6'>
+                <div className='p-1'>
+                  <EditorComponent 
+                    files={Files}
+                    languageType={handleLanguageType}
+                    editorInput={handleEditorInput}
+                    darkMode={darkMode}/>
+                </div>
+                
+              </div>
+              <div className='col-6'>
+                <div className='p-1'>
+                  <OutputComponent
+                    output={result}
+                    runCodeButton={handleRunCodeButton}
+                    darkMode={darkMode}/>
+                </div>
+                
+              </div>
             </div>
             
-          </div>
-          <div className='col-6'>
-            <div className='p-1'>
-              <OutputComponent
-                output={result}
-                runCodeButton={handleRunCodeButton}/>
-            </div>
             
           </div>
-        </div>
-        
-        
-      </div>
-      
-    
-    
-
-
- 
-    
-    
-      
-      
+          <Footer/>
+          </div>
     </>
   )
 }

@@ -11,8 +11,8 @@ function OutputComponent(props) {
     <div className='col-12'>
       <div><h3>Output</h3></div>
       <div><button type="button" className="btn btn-success my-0 border" onClick={handleClick}>Run Code</button></div>
-      <div className='bg-secondary mt-1 border rounded-2' style={{width: '100%', height: '80vh'}}>
-            <h6>{props.output ? props.output: 'Click Run Code to see the Output'}</h6>
+      <div className={props.darkMode ?' mt-1 rounded-2 border border-2 border-success' : ' mt-1 rounded-2 border border-2 border-dark'} style={{width: '100%', height: '65vh'}}>
+            <h6 className='p-3'>{props.output ? props.output: 'Click Run Code to see the Output'}</h6>
       </div>
     </div>
   )
